@@ -27,7 +27,14 @@ export function copyStandaloneAssets({ projectRoot = process.cwd(), distDir = pr
 
   const staticSource = resolve(buildDir, "static");
   const staticDestination = resolve(standaloneDir, distDir, "static");
-  if (existsSync(staticSource)) {
+  if (isAppwriteBuild) {
+    // Same conflict class as public/ below: the platform stages .next into a
+    // temp dir and moves .next/static/* into standalone/.next/static/* itself.
+    // A pre-existing non-empty destination fails with
+    // "mv: can't rename '.../.next/static/<dir>': Directory not empty".
+    rmSync(staticDestination, { recursive: true, force: true });
+    console.log("[standalone-assets] Appwrite build detected; skipping .next/static copy (platform SSR bundler moves .next/static itself)");
+  } else if (existsSync(staticSource)) {
     cpSync(staticSource, staticDestination, { recursive: true, force: true });
     console.log(`[standalone-assets] Copied static assets to ${staticDestination}`);
   }
