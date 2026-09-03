@@ -37,6 +37,14 @@ function createSilentWavFile() {
   return new Blob([buffer], { type: "audio/wav" });
 }
 
+// Appwrite Sites / open-runtimes wraps the server and rejects any request that
+// lacks the platform's x-open-runtimes-secret header — including our own
+// loopback self-calls. The secret lives in the runtime env of this same process.
+export function getRuntimeSecretHeaders() {
+  const secret = process.env.OPEN_RUNTIMES_SECRET;
+  return secret ? { "x-open-runtimes-secret": secret } : {};
+}
+
 async function getInternalHeaders() {
   let apiKey = null;
   try {
@@ -44,7 +52,7 @@ async function getInternalHeaders() {
     apiKey = keys.find((k) => k.isActive !== false)?.key || null;
   } catch {}
 
-  const headers = { "Content-Type": "application/json" };
+  const headers = { ...getRuntimeSecretHeaders(), "Content-Type": "application/json" };
   if (apiKey) headers["Authorization"] = `Bearer ${apiKey}`;
   headers["x-9r-cli-token"] = await getConsistentMachineId(CLI_TOKEN_SALT);
   return headers;

@@ -3,7 +3,7 @@ import { getProviderConnectionById } from "@/lib/localDb";
 import { getProviderModels, PROVIDER_ID_TO_ALIAS } from "open-sse/config/providerModels.js";
 import { isOpenAICompatibleProvider, isAnthropicCompatibleProvider } from "@/shared/constants/providers";
 import { UPDATER_CONFIG } from "@/shared/constants/config";
-import { pingModelByKind } from "@/app/api/models/test/ping";
+import { pingModelByKind, getRuntimeSecretHeaders } from "@/app/api/models/test/ping";
 
 /**
  * POST /api/providers/[id]/test-models
@@ -29,7 +29,7 @@ export async function POST(request, { params }) {
     // Compatible providers: fetch live model list
     if (isCompatible && models.length === 0) {
       try {
-        const modelsRes = await fetch(`${baseUrl}/api/providers/${id}/models`);
+        const modelsRes = await fetch(`${baseUrl}/api/providers/${id}/models`, { headers: getRuntimeSecretHeaders() });
         if (modelsRes.ok) {
           const data = await modelsRes.json();
           models = (data.models || []).map((m) => ({ id: m.id || m.name, name: m.name || m.id }));
