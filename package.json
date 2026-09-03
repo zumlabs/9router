@@ -24,6 +24,7 @@
     "@monaco-editor/react": "^4.7.0",
     "@next/third-parties": "^16.2.9",
     "@node-saml/node-saml": "^5.1.0",
+    "@tailwindcss/postcss": "^4.1.18",
     "@xyflow/react": "^12.10.1",
     "bcryptjs": "^3.0.3",
     "chalk": "^5.6.2",
@@ -39,6 +40,7 @@
     "node-machine-id": "^1.1.12",
     "open": "^11.0.0",
     "ora": "^9.1.0",
+    "postcss": "^8.5.6",
     "prop-types": "^15.8.1",
     "react": "19.2.4",
     "react-dom": "19.2.4",
@@ -47,6 +49,7 @@
     "selfsigned": "^5.5.0",
     "socks-proxy-agent": "^8.0.5",
     "sql.js": "^1.14.1",
+    "tailwindcss": "^4",
     "undici": "^7.19.2",
     "uuid": "^13.0.0",
     "zustand": "^5.0.10"
@@ -56,10 +59,7 @@
   },
   "comment_better_sqlite3": "kept in optionalDependencies so npm install doesn't fail on systems without build tools — sql.js is used as fallback at runtime",
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.1.18",
     "eslint": "^9",
-    "eslint-config-next": "16.1.6",
-    "postcss": "^8.5.6",
-    "tailwindcss": "^4"
+    "eslint-config-next": "16.1.6"
   }
 }
